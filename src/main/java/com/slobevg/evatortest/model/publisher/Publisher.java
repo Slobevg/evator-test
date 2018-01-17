@@ -1,4 +1,4 @@
-package com.slobevg.evatortest.model;
+package com.slobevg.evatortest.model.publisher;
 
 import javax.persistence.*;
 

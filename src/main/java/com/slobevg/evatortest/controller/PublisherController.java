@@ -1,4 +1,4 @@
-package com.slobevg.evatortest;
+package com.slobevg.evatortest.controller;
 
 import com.slobevg.evatortest.model.publisher.Publisher;
 import com.slobevg.evatortest.service.publisher.PublisherService;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController(value = "/publishers")
+@RestController
+@RequestMapping(path = "/publishers")
 public class PublisherController {
 
     private final PublisherService publisherService;

@@ -1,6 +1,9 @@
 package com.slobevg.evatortest.controller;
 
+import com.slobevg.evatortest.model.application.Application;
+import com.slobevg.evatortest.model.application.Genre;
 import com.slobevg.evatortest.model.publisher.Publisher;
+import com.slobevg.evatortest.service.application.ApplicationService;
 import com.slobevg.evatortest.service.publisher.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,28 +13,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController(value = "/publishers")
-public class PublisherController {
+@RestController
+@RequestMapping(path = "/applications")
+public class ApplicationController {
 
-    private final PublisherService publisherService;
+    private final ApplicationService applicationService;
 
     @Autowired
-    public PublisherController(PublisherService publisherService) {
-        this.publisherService = publisherService;
+    public ApplicationController(ApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Publisher> list() {
-        return publisherService.findAll();
+    public List<Application> list() {
+        return applicationService.findAll();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Publisher create(@RequestBody PublisherCreateRequest request) {
-        return publisherService.create(request.getName());
+    public void create(@RequestBody ApplicationCreateRequest request) {
+        applicationService.create(request.getPublisherId(), request.getName(), request.getGenre());
     }
 
-    private static class PublisherCreateRequest {
+    @RequestMapping(method = RequestMethod.POST)
+    public void update(@RequestBody ApplicationCreateRequest request) {
+        applicationService.update(request.getPublisherId(), request.getName(), request.getGenre());
+    }
+
+    private static class ApplicationCreateRequest {
+        private Long publisherId;
         private String name;
+        private Genre genre;
 
         public String getName() {
             return name;
@@ -39,6 +50,22 @@ public class PublisherController {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public Long getPublisherId() {
+            return publisherId;
+        }
+
+        public void setPublisherId(Long publisherId) {
+            this.publisherId = publisherId;
+        }
+
+        public Genre getGenre() {
+            return genre;
+        }
+
+        public void setGenre(Genre genre) {
+            this.genre = genre;
         }
     }
 }

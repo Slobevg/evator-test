@@ -1,7 +1,8 @@
-package com.slobevg.evatortest.model;
+package com.slobevg.evatortest.model.application;
+
+import com.slobevg.evatortest.model.publisher.Publisher;
 
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
@@ -19,7 +20,7 @@ public class ApplicationId implements Serializable {
         this.name = name;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     public Publisher getPublisher() {
         return publisher;
     }
