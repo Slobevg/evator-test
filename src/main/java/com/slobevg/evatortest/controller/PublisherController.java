@@ -1,7 +1,7 @@
 package com.slobevg.evatortest;
 
-import com.slobevg.evatortest.model.Publisher;
-import com.slobevg.evatortest.service.PublisherService;
+import com.slobevg.evatortest.model.publisher.Publisher;
+import com.slobevg.evatortest.service.publisher.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
