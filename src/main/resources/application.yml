@@ -6,10 +6,11 @@ spring:
     pool-size: 30
     driver-class-name: org.postgresql.Driver
   jpa:
+    generate-ddl: true
     show-sql: true
-    ddl-auto: create
     properties:
       hibernate:
+        ddl-auto: create-drop
         dialect: org.hibernate.dialect.PostgreSQLDialect
         temp:
           use_jdbc_metadata_defaults: false

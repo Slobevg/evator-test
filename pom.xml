@@ -44,11 +44,11 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-<!--
+
 		<dependency>
-			<groupId>hibernate</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-envers</artifactId>
-		</dependency>-->
+		</dependency>
 	</dependencies>
 
 	<build>
