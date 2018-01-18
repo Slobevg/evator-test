@@ -3,9 +3,9 @@ package com.slobevg.evatortest.service.application;
 import com.slobevg.evatortest.model.application.Application;
 import com.slobevg.evatortest.model.application.ApplicationId;
 import com.slobevg.evatortest.model.application.Genre;
-import com.slobevg.evatortest.model.publisher.Publisher;
 import com.slobevg.evatortest.repository.application.ApplicationRepository;
 import com.slobevg.evatortest.repository.publisher.PublisherRepository;
+import com.slobevg.evatortest.service.validation.ApplicationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +17,13 @@ public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
     private final PublisherRepository publisherRepository;
+    private final ApplicationValidator applicationValidator;
 
     @Autowired
-    public ApplicationService(ApplicationRepository applicationRepository, PublisherRepository publisherRepository) {
+    public ApplicationService(ApplicationRepository applicationRepository, PublisherRepository publisherRepository, ApplicationValidator applicationValidator) {
         this.applicationRepository = applicationRepository;
         this.publisherRepository = publisherRepository;
+        this.applicationValidator = applicationValidator;
     }
 
     @Transactional
@@ -30,9 +32,9 @@ public class ApplicationService {
         ApplicationId id = new ApplicationId();
         id.setPublisher(publisherRepository.getOne(publisherId));
         id.setName(name);
+        application.setId(id);
+        application.setGenre(genre);
         if (!applicationRepository.exists(id)) {
-            application.setId(id);
-            application.setGenre(genre);
             applicationRepository.save(application);
         }
     }

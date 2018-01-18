@@ -1,5 +1,6 @@
 package com.slobevg.evatortest.model.application;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

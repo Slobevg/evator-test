@@ -4,7 +4,7 @@
         <createSequence sequenceName="hibernate_sequence"/>
     </changeSet>
     <changeSet author="eslobodskoy (generated)" id="1516217636640-2">
-        <createSequence sequenceName="publisher_id_seq"/>
+        <createSequence sequenceName="publisher_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
     <changeSet author="eslobodskoy (generated)" id="1516217636640-3">
         <createTable tableName="application">
