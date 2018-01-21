@@ -1,45 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-1">
-        <createSequence sequenceName="hibernate_sequence"/>
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-1">
+        <createSequence sequenceName="application_id_seq"/>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-2">
-        <createSequence sequenceName="publisher_id_seq" startValue="1" incrementBy="1"/>
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-2">
+        <createSequence sequenceName="draft_id_seq"/>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-3">
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-3">
+        <createSequence sequenceName="publisher_id_seq"/>
+    </changeSet>
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-4">
         <createTable tableName="application">
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="publisher_id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="application_pkey"/>
             </column>
             <column name="genre" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="publisher_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-4">
-        <createTable tableName="application_aud">
-            <column name="publisher_id" type="BIGINT">
-                <constraints nullable="false"/>
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-5">
+        <createTable tableName="draft">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="draft_pkey"/>
             </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="rev" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revtype" type="SMALLINT"/>
             <column name="genre" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="application_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-5">
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-6">
         <createTable tableName="genre">
-            <column name="name" type="TEXT">
+            <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-6">
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-7">
         <createTable tableName="publisher">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="publisher_pkey"/>
@@ -47,36 +44,13 @@
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-7">
-        <createTable tableName="revinfo">
-            <column name="rev" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revtstmp" type="BIGINT"/>
-        </createTable>
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-8">
+        <addPrimaryKey columnNames="name" constraintName="genre_pkey" tableName="genre"/>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-8">
-        <addPrimaryKey columnNames="publisher_id, name, rev" constraintName="application_aud_pkey" tableName="application_aud"/>
-    </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-9">
-        <addPrimaryKey columnNames="publisher_id, name" constraintName="application_pkey" tableName="application"/>
-    </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-10">
-        <addPrimaryKey columnNames="name" constraintName="pk_genre" tableName="genre"/>
-    </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-11">
-        <addPrimaryKey columnNames="rev" constraintName="revinfo_pkey" tableName="revinfo"/>
-    </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-12">
-        <addForeignKeyConstraint baseColumnNames="genre" baseTableName="application" constraintName="fk_application_genre" deferrable="true" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="genre"/>
-    </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-13">
-        <addForeignKeyConstraint baseColumnNames="publisher_id" baseTableName="application_aud" constraintName="fkfggv8mlat6ojh7sld4g5vuxue" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="publisher"/>
-    </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-14">
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-9">
         <addForeignKeyConstraint baseColumnNames="publisher_id" baseTableName="application" constraintName="fkobe59usmvtq82hqm0y9s91vvp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="publisher"/>
     </changeSet>
-    <changeSet author="eslobodskoy (generated)" id="1516217636640-15">
-        <addForeignKeyConstraint baseColumnNames="rev" baseTableName="application_aud" constraintName="fkp908xu879qljr5nc0eq2pc7na" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="rev" referencedTableName="revinfo"/>
+    <changeSet author="eslobodskoy (generated)" id="1516564455566-10">
+        <addForeignKeyConstraint baseColumnNames="application_id" baseTableName="draft" constraintName="fkt6i0vxvcutwxj35gtpjiu2mc3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="application"/>
     </changeSet>
 </databaseChangeLog>
