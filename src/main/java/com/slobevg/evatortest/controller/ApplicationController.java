@@ -35,8 +35,13 @@ public class ApplicationController {
         applicationService.create(application);
     }
 
-    @RequestMapping(path = "/activate", method = RequestMethod.POST)
+    @RequestMapping(path = "/draft/activate", method = RequestMethod.POST)
     public void activate(@RequestBody Draft draft) {
         applicationService.activate(draft);
+    }
+
+    @RequestMapping(path = "/draft/update", method = RequestMethod.POST)
+    public void update(@RequestBody Draft draft) {
+        applicationService.update(draft);
     }
 }

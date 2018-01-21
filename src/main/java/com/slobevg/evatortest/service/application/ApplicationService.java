@@ -67,4 +67,11 @@ public class ApplicationService {
         application.setWhitish(whitish);
     }
 
+    @Transactional
+    public void update(Draft request) {
+        Draft draft = draftRepository.findOne(request.getId());
+        if (draft != null) {
+            draft.setWhitish(request.getWhitish());
+        }
+    }
 }
