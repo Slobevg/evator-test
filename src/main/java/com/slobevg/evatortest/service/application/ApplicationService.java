@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -60,10 +61,9 @@ public class ApplicationService {
             return;
         }
         Application application = draft.getApplication();
-
-        Whitish currentWhitish = application.getWhitish();
-        application.getDrafts().remove(draft);
-        application.getDrafts().add(new Draft(currentWhitish));
+        List<Draft> drafts = application.getDrafts();
+        drafts.removeIf(next -> next.getId().equals(draft.getId()));
+        drafts.add(new Draft(application));
         application.setWhitish(whitish);
     }
 

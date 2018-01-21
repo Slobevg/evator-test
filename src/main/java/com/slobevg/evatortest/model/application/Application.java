@@ -33,7 +33,7 @@ public class Application {
         this.publisher = publisher;
     }
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST, orphanRemoval = true)
     public List<Draft> getDrafts() {
         return drafts;
     }

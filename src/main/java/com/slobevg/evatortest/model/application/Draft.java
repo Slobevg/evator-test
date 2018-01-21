@@ -14,8 +14,9 @@ public class Draft {
 
     public Draft() {}
 
-    public Draft(Whitish whitish) {
-        this.whitish = whitish;
+    public Draft(Application application) {
+        this.whitish = application.getWhitish();
+        this.application = application;
     }
 
     @Id
@@ -46,4 +47,5 @@ public class Draft {
     public void setApplication(Application application) {
         this.application = application;
     }
+
 }
