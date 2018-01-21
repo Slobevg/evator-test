@@ -1,9 +1,8 @@
 package com.slobevg.evatortest.service.application;
 
-import com.slobevg.evatortest.model.application.Application;
-import com.slobevg.evatortest.model.application.ApplicationId;
-import com.slobevg.evatortest.model.application.Genre;
+import com.slobevg.evatortest.model.application.*;
 import com.slobevg.evatortest.repository.application.ApplicationRepository;
+import com.slobevg.evatortest.repository.application.DraftRepository;
 import com.slobevg.evatortest.repository.publisher.PublisherRepository;
 import com.slobevg.evatortest.service.validation.ApplicationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +17,28 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final PublisherRepository publisherRepository;
     private final ApplicationValidator applicationValidator;
+    private final DraftRepository draftRepository;
 
     @Autowired
-    public ApplicationService(ApplicationRepository applicationRepository, PublisherRepository publisherRepository, ApplicationValidator applicationValidator) {
+    public ApplicationService(
+            ApplicationRepository applicationRepository
+            , PublisherRepository publisherRepository
+            , ApplicationValidator applicationValidator
+            , DraftRepository draftRepository
+    ) {
+
         this.applicationRepository = applicationRepository;
         this.publisherRepository = publisherRepository;
         this.applicationValidator = applicationValidator;
+        this.draftRepository = draftRepository;
     }
 
     @Transactional
-    public void create(Long publisherId, String name, Genre genre) {
-        Application application = new Application();
-        ApplicationId id = new ApplicationId();
-        id.setPublisher(publisherRepository.getOne(publisherId));
-        id.setName(name);
-        application.setId(id);
-        application.setGenre(genre);
-        if (!applicationRepository.exists(id)) {
+    public void create(Application application) {
+        Whitish whitish = application.getWhitish();
+        if (applicationValidator.validate(whitish)) {
+            application.getDrafts()
+                    .forEach(draft -> draft.setApplication(application));
             applicationRepository.save(application);
         }
     }
@@ -45,11 +49,22 @@ public class ApplicationService {
     }
 
     @Transactional
-    public void update(Long publisherId, String name, Genre genre) {
-        ApplicationId applicationId = new ApplicationId();
-        applicationId.setName(name);
-        applicationId.setPublisher(publisherRepository.getOne(publisherId));
-        Application application = applicationRepository.findOne(applicationId);
-        application.setGenre(genre);
+    public void activate(Draft request) {
+        Draft draft = draftRepository.findOne(request.getId());
+        if (draft == null) {
+            return;
+        }
+
+        Whitish whitish = draft.getWhitish();
+        if (!applicationValidator.validate(whitish)) {
+            return;
+        }
+        Application application = draft.getApplication();
+
+        Whitish currentWhitish = application.getWhitish();
+        application.getDrafts().remove(draft);
+        application.getDrafts().add(new Draft(currentWhitish));
+        application.setWhitish(whitish);
     }
+
 }

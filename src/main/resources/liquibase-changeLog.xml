@@ -6,10 +6,14 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-
-    <include file="liquibase-generated.xml"></include>
-
+<!--
     <changeSet author="Slobevg" id="create-genre-dictionary">
+        <createTable tableName="genre">
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="name" constraintName="pk_genre" tableName="genre"/>
         <insert tableName="genre">
             <column name="name" value="GAME" type="text"/>
         </insert>
@@ -22,6 +26,10 @@
         <insert tableName="genre">
             <column name="name" value="MUSIC" type="text"/>
         </insert>
+        <addForeignKeyConstraint baseColumnNames="genre" baseTableName="draft_application"
+                                 constraintName="fk_draft_application_genre" deferrable="true" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="genre"/>
+        <addForeignKeyConstraint baseColumnNames="genre" baseTableName="active_application"
+                                 constraintName="fk_active_application_genre" deferrable="true" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="name" referencedTableName="genre"/>
     </changeSet>
-
+-->
 </databaseChangeLog>

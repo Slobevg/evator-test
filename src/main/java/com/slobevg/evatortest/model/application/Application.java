@@ -1,33 +1,54 @@
 package com.slobevg.evatortest.model.application;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.envers.Audited;
+import com.slobevg.evatortest.model.publisher.Publisher;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table
 @Entity
-@Audited
 public class Application {
 
-    private ApplicationId id;
-    private Genre genre;
+    private Long id;
+    private Publisher publisher;
+    private List<Draft> drafts;
+    private Whitish whitish;
 
-    @EmbeddedId
-    public ApplicationId getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
         return id;
     }
 
-    public void setId(ApplicationId id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Enumerated(EnumType.STRING)
-    public Genre getGenre() {
-        return genre;
+    @ManyToOne
+    public Publisher getPublisher() {
+        return publisher;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
+
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
+    public List<Draft> getDrafts() {
+        return drafts;
+    }
+
+    public void setDrafts(List<Draft> drafts) {
+        this.drafts = drafts;
+    }
+
+    @Embedded
+    public Whitish getWhitish() {
+        return whitish;
+    }
+
+    public void setWhitish(Whitish whitish) {
+        this.whitish = whitish;
+    }
+
 }

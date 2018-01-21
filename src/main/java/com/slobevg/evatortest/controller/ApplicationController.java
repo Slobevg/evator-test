@@ -1,6 +1,7 @@
 package com.slobevg.evatortest.controller;
 
 import com.slobevg.evatortest.model.application.Application;
+import com.slobevg.evatortest.model.application.Draft;
 import com.slobevg.evatortest.model.application.Genre;
 import com.slobevg.evatortest.model.publisher.Publisher;
 import com.slobevg.evatortest.service.application.ApplicationService;
@@ -30,42 +31,12 @@ public class ApplicationController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void create(@RequestBody ApplicationCreateRequest request) {
-        applicationService.create(request.getPublisherId(), request.getName(), request.getGenre());
+    public void create(@RequestBody Application application) {
+        applicationService.create(application);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void update(@RequestBody ApplicationCreateRequest request) {
-        applicationService.update(request.getPublisherId(), request.getName(), request.getGenre());
-    }
-
-    private static class ApplicationCreateRequest {
-        private Long publisherId;
-        private String name;
-        private Genre genre;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Long getPublisherId() {
-            return publisherId;
-        }
-
-        public void setPublisherId(Long publisherId) {
-            this.publisherId = publisherId;
-        }
-
-        public Genre getGenre() {
-            return genre;
-        }
-
-        public void setGenre(Genre genre) {
-            this.genre = genre;
-        }
+    @RequestMapping(path = "/activate", method = RequestMethod.POST)
+    public void activate(@RequestBody Draft draft) {
+        applicationService.activate(draft);
     }
 }
